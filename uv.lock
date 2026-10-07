@@ -327,7 +327,7 @@ dev = [
 
 [[package]]
 name = "golded-ftn-mcp"
-version = "1.0.0"
+version = "1.0.1"
 source = { editable = "." }
 dependencies = [
     { name = "golded-ftn-tools" },
@@ -398,7 +398,7 @@ dev = [
 
 [[package]]
 name = "golded-ftn-tools"
-version = "1.0.0"
+version = "1.0.1"
 source = { editable = "../golded-ftn-tools" }
 dependencies = [
     { name = "golded-ftn" },
