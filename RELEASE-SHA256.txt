@@ -1,2 +1,2 @@
-8bc6dea33af6e77ad1b2be186140c03d6e8592909648e8a48c433c3e8d15cedb  dist/golded_ftn_mcp-1.0.1-py3-none-any.whl
-dbec26bf7c2785163bc0b35d385862abdade563cfb53b2468165aaab8485362e  dist/golded_ftn_mcp-1.0.1.tar.gz
+4fd574397f2badbe994632d940ca13a2b152c8f01f435250e4b6702f91c7da95  dist/golded_ftn_mcp-1.0.2-py3-none-any.whl
+6a55bb1689fdbc7a1a9649d06c4edf64f7db81bc225439303f4551132fb1bfca  dist/golded_ftn_mcp-1.0.2.tar.gz

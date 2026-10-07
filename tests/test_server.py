@@ -1,9 +1,13 @@
 """The server calls the tools library and does not expose writes."""
 
+import asyncio
 import base64
+import sys
 from pathlib import Path
 
 from golded_ftn_tools import create, write
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
 
 from golded_ftn_mcp.server import TOOLS, catalog, heads, mcp, repair
 
@@ -41,3 +45,39 @@ def test_repair_round_trip() -> None:
     assert isinstance(result, dict)
     assert result["text"] == "plain"
     assert base64.b64encode(b"ok").decode() == "b2s="
+
+
+def test_stdio_tools_against_offline_base(tmp_path: Path) -> None:
+    create("msg", tmp_path)
+    list(
+        write(
+            "msg",
+            tmp_path,
+            [b'{"from_name":"A","to_name":"B","subject":"S","body_text":"Text"}'],
+        )
+    )
+
+    async def exercise() -> None:
+        parameters = StdioServerParameters(
+            command=sys.executable, args=["-m", "golded_ftn_mcp.server"]
+        )
+        async with stdio_client(parameters) as (reader, writer):
+            async with ClientSession(reader, writer) as session:
+                await session.initialize()
+                registered = await session.list_tools()
+                assert {tool.name for tool in registered.tools} == set(TOOLS)
+                base: dict[str, object] = {"base": str(tmp_path), "format": "msg"}
+                calls: list[tuple[str, dict[str, object]]] = [
+                    ("catalog", {}),
+                    ("heads", base),
+                    ("read", {**base, "msgno": 1}),
+                    ("export", base),
+                    ("decode", {"data_base64": "VGV4dA==", "charset": "UTF-8"}),
+                    ("repair", {"text": "plain"}),
+                ]
+                for name, arguments in calls:
+                    result = await session.call_tool(name, arguments)
+                    assert not result.is_error, (name, result)
+                    assert result.content, name
+
+    asyncio.run(exercise())
