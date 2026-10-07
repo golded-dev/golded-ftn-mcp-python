@@ -16,7 +16,7 @@ jobs:
       - name: Install with public dependencies
         run: |
           uv venv --python ${{ matrix.python }}
-          uv pip install --no-sources . pytest ruff mypy build twine
+          uv pip install --refresh --index-url https://pypi.org/simple --no-sources . pytest ruff mypy build twine
       - run: uv run --no-sync ruff check . && uv run --no-sync ruff format --check . && uv run --no-sync mypy
       - run: uv run --no-sync pytest -q
       - run: uv build && uv run --no-sync twine check dist/*
