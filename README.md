@@ -4,17 +4,18 @@ A local stdio MCP server for FTN message bases. It imports `golded-ftn-tools` an
 
 The tools are `catalog`, `heads`, `read`, `export`, `decode` and `repair`. `create` and `write` are not exposed. `export` defaults to 20 messages.
 
-Install version 1.0.1 from PyPI with Python 3.12+, then run it over stdio:
+Install version 1.0.2 from PyPI with Python 3.12+, then run it over stdio:
 
 ```sh
-python -m pip install golded-ftn-mcp==1.0.1
+python -m pip install golded-ftn-mcp==1.0.2
 golded-ftn-mcp
 ```
 
 Keep message bases offline. Close GoldED before a client calls a tool. Do not expose this server on the network. The bases can hold private netmail.
 
-Version 1.0.1 is published on PyPI and requires `golded-ftn-tools>=1.0.1,<2`.
-Linux and macOS CI passed with Python 3.12 and 3.14 using public PyPI
-dependencies. Windows is unsupported.
+Version 1.0.2 is published on PyPI and requires `golded-ftn-tools>=1.0.2,<2`.
+Linux, macOS and Windows CI passed with Python 3.12 and 3.14 using public
+PyPI dependencies. The tests initialize an actual stdio session and call all
+six read-only tools.
 
 Release archive SHA-256 values are in `RELEASE-SHA256.txt`.
